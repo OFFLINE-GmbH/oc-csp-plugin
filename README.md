@@ -44,8 +44,8 @@ You can access the `nonce` for the current request using the
 `csp_nonce` helper function:
 
 ```twig
-<script nonce="{{ csp_nonce() }}"> 
-<style nonce="{{ csp_nonce() }}">
+<script nonce="{{ csp_nonce() }}"></script>
+<style nonce="{{ csp_nonce() }}"></style>
 ```
 
 You can disable the automatic injection of the nonce via the backend settings.
