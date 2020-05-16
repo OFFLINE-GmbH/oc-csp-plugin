@@ -1,0 +1,632 @@
+fields:
+    enabled:
+        label: 'offline.csp::lang.form.enabled'
+        comment: 'offline.csp::lang.form.enabled_comment'
+        span: left
+        type: switch
+
+tabs:
+    lazy:
+    - 'offline.csp::lang.form.font_source'
+    - 'offline.csp::lang.form.connect_source'
+    - 'offline.csp::lang.form.media_source'
+    - 'offline.csp::lang.form.object_source'
+    - 'offline.csp::lang.form.prefetch_source'
+    - 'offline.csp::lang.form.child_source'
+    - 'offline.csp::lang.form.frame_source'
+    - 'offline.csp::lang.form.frame_ancestors'
+    - 'offline.csp::lang.form.worker_source'
+    - 'offline.csp::lang.form.manifest_source'
+    - 'offline.csp::lang.form.form_action'
+    - 'offline.csp::lang.form.base_uri'
+    fields:
+        #
+        # Flags
+        #
+        report_only:
+            label: 'offline.csp::lang.form.report_only'
+            commentAbove: 'offline.csp::lang.form.report_only_comment'
+            span: left
+            type: switch
+            tab: 'offline.csp::lang.form.general'
+        upgrade_insecure_requests:
+            label: 'offline.csp::lang.form.upgrade_insecure_requests'
+            span: right
+            type: checkbox
+            commentAbove: 'offline.csp::lang.form.upgrade_insecure_requests_comment'
+            tab: 'offline.csp::lang.form.general'
+        report_mode:
+            label: 'offline.csp::lang.form.report_mode'
+            span: left
+            type: dropdown
+            options:
+                internal: 'offline.csp::lang.form.report_internal'
+                custom: 'offline.csp::lang.form.report_custom'
+                disabled: 'offline.csp::lang.form.report_disabled'
+            tab: 'offline.csp::lang.form.general'
+        block_all_mixed_content:
+            label: 'offline.csp::lang.form.block_all_mixed_content'
+            span: right
+            type: checkbox
+            commentAbove: 'offline.csp::lang.form.block_all_mixed_content_comment'
+            tab: 'offline.csp::lang.form.general'
+        inject_nonce:
+            label: 'offline.csp::lang.form.inject_nonce'
+            span: right
+            type: checkbox
+            commentAbove: 'offline.csp::lang.form.inject_nonce_comment'
+            tab: 'offline.csp::lang.form.general'
+        report_uri:
+            label: 'offline.csp::lang.form.report_uri'
+            span: left
+            type: text
+            tab: 'offline.csp::lang.form.general'
+            trigger:
+                field: report_mode
+                action: show
+                condition: value[custom]
+        require_trusted_types:
+            label: 'offline.csp::lang.form.require_trusted_types'
+            span: right
+            type: checkboxlist
+            options:
+                "'script'": 'script'
+            tab: 'offline.csp::lang.form.general'
+        sandbox:
+            label: 'offline.csp::lang.form.sandbox'
+            span: right
+            type: checkboxlist
+            options:
+                enabled: 'Enabled'
+                allow-forms: 'Allow forms'
+                allow-modals: 'Allow modals'
+                allow-orientation-lock: 'Allow orientation lock'
+                allow-pointer-lock: 'Allow pointer lock'
+                allow-popups: 'Allow popups'
+                allow-popups-to-escape-sandbox: 'Allow popups to escape sandbox'
+                allow-presentation: 'Allow presentation'
+                allow-same-origin: 'Allow same origin'
+                allow-scripts: 'Allow scripts'
+                allow-top-navigation: 'Allow top navigation'
+                allow-top-navigation-by-user-activation: 'Allow top navigation by user activation'
+            tab: 'offline.csp::lang.form.general'
+
+        #
+        # Default
+        #
+        default_src:
+            label: 'offline.csp::lang.form.default_source'
+            commentAbove: default-src
+            type: checkboxlist
+            span: auto
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+                unsafe-inline: 'Unsafe Inline'
+                unsafe-hashes: 'Unsafe Hashes'
+                unsafe-eval: 'Unsafe Eval'
+            tab: 'offline.csp::lang.form.default_source'
+        default_src_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.default_source'
+
+        #
+        # Script
+        #
+        script_src:
+            label: 'offline.csp::lang.form.script_source_fallback'
+            commentAbove: script-src
+            options:
+                none: None
+                '*': All
+                self: Self
+                nonce: Nonce
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+                strict-dynamic: 'Strict dynamic'
+                unsafe-inline: 'Unsafe Inline'
+                unsafe-hashes: 'Unsafe Hashes'
+                unsafe-eval: 'Unsafe Eval'
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.script_source'
+        script_src_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.script_source'
+        script_src_elem:
+            label: 'offline.csp::lang.form.script_source_elem'
+            commentAbove: script-src-elem
+            options:
+                none: None
+                '*': All
+                self: Self
+                nonce: Nonce
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+                unsafe-inline: 'Unsafe Inline'
+                unsafe-hashes: 'Unsafe Hashes'
+                unsafe-eval: 'Unsafe Eval'
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.script_source'
+        script_src_elem_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.script_source'
+        script_src_attr:
+            label: 'offline.csp::lang.form.script_source_attr'
+            commentAbove: script-src-attr
+            options:
+                none: None
+                '*': All
+                self: Self
+                nonce: Nonce
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+                unsafe-inline: 'Unsafe Inline'
+                unsafe-hashes: 'Unsafe Hashes'
+                unsafe-eval: 'Unsafe Eval'
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.script_source'
+        script_src_attr_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.script_source'
+
+        #
+        # Style
+        #
+        style_src:
+            label: 'offline.csp::lang.form.style_source_fallback'
+            commentAbove: style-src
+            options:
+                none: None
+                '*': All
+                self: Self
+                nonce: Nonce
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+                unsafe-inline: 'Unsafe Inline'
+                unsafe-hashes: 'Unsafe Hashes'
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.style_source'
+        style_src_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.style_source'
+        style_src_elem:
+            label: 'offline.csp::lang.form.style_source_elem'
+            commentAbove: style-src-elem
+            options:
+                none: None
+                '*': All
+                self: Self
+                nonce: Nonce
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+                unsafe-inline: 'Unsafe Inline'
+                unsafe-hashes: 'Unsafe Hashes'
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.style_source'
+        style_src_elem_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.style_source'
+        style_src_attr:
+            label: 'offline.csp::lang.form.style_source_attr'
+            commentAbove: style-src-attr
+            options:
+                none: None
+                '*': All
+                self: Self
+                nonce: Nonce
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+                unsafe-inline: 'Unsafe Inline'
+                unsafe-hashes: 'Unsafe Hashes'
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.style_source'
+        style_src_attr_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.style_source'
+
+        #
+        # Image
+        #
+        image_src:
+            label: 'offline.csp::lang.form.image_source'
+            commentAbove: image-src
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.image_source'
+        image_src_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.image_source'
+
+        #
+        # Font
+        #
+        font_src:
+            label: 'offline.csp::lang.form.font_source'
+            commentAbove: font-src
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.font_source'
+        font_src_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.font_source'
+
+        #
+        # Connect
+        #
+        connect_src:
+            label: 'offline.csp::lang.form.connect_source'
+            commentAbove: connect-src
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.connect_source'
+        connect_src_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.connect_source'
+
+        #
+        # Media
+        #
+        media_src:
+            label: 'offline.csp::lang.form.media_source'
+            commentAbove: media-src
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.media_source'
+        media_src_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.media_source'
+
+        #
+        # Object
+        #
+        object_src:
+            label: 'offline.csp::lang.form.object_source'
+            commentAbove: object-src
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.object_source'
+        object_src_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.object_source'
+
+        #
+        # Prefetch
+        #
+        prefetch_src:
+            label: 'offline.csp::lang.form.prefetch_source'
+            commentAbove: prefetch-src
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.prefetch_source'
+        prefetch_src_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.prefetch_source'
+
+        #
+        # Child
+        #
+        child_src:
+            label: 'offline.csp::lang.form.child_source'
+            commentAbove: child-src
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.child_source'
+        child_src_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.child_source'
+
+        #
+        # Frame
+        #
+        frame_src:
+            label: 'offline.csp::lang.form.frame_source'
+            commentAbove: frame-src
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.frame_source'
+        frame_src_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.frame_source'
+
+        #
+        # Frame ancestors
+        #
+        frame_ancestors:
+            label: 'offline.csp::lang.form.frame_ancestors'
+            commentAbove: frame-ancestors
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.frame_ancestors'
+        frame_ancestors_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.frame_ancestors'
+
+        #
+        # Worker
+        #
+        worker_src:
+            label: 'offline.csp::lang.form.worker_source'
+            commentAbove: worker-src
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.worker_source'
+        worker_src_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.worker_source'
+
+
+        #
+        # Manifest
+        #
+        manifest_src:
+            label: 'offline.csp::lang.form.manifest_source'
+            commentAbove: manifest-src
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.manifest_source'
+        manifest_src_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.manifest_source'
+
+        #
+        # Form Action
+        #
+        form_action:
+            label: 'offline.csp::lang.form.form_action'
+            commentAbove: form-action
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.form_action'
+        form_action_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.form_action'
+
+        #
+        # Base URI
+        #
+        base_uri:
+            label: 'offline.csp::lang.form.base_uri'
+            commentAbove: base-uri
+            options:
+                none: None
+                '*': All
+                self: Self
+                'http:': HTTP
+                'https:': HTTPS
+                'data:': Data
+                'mediastream:': Mediastream
+                'blob:': Blob
+                'filesystem:': Filesystem
+            span: auto
+            type: checkboxlist
+            tab: 'offline.csp::lang.form.base_uri'
+        base_uri_hosts:
+            label: 'offline.csp::lang.form.additional_hosts'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.additional_hosts_comment'
+            tab: 'offline.csp::lang.form.base_uri'
+
+        #
+        # Plugin types
+        #
+        plugin_types:
+            label: 'offline.csp::lang.form.plugin_types'
+            span: auto
+            type: text
+            commentAbove: 'offline.csp::lang.form.plugin_types_comment'
+            tab: 'offline.csp::lang.form.plugin_types'

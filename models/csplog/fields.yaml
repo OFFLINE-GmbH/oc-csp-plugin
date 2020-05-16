@@ -1,0 +1,39 @@
+fields:
+    blocked_uri:
+        label: 'offline.csp::lang.log.blocked_uri'
+        span: auto
+        type: text
+    document_uri:
+        label: 'offline.csp::lang.log.document_uri'
+        span: auto
+        type: text
+    referrer:
+        label: 'offline.csp::lang.log.referrer'
+        span: auto
+        type: text
+    violated_directive:
+        label: 'offline.csp::lang.log.violated_directive'
+        span: auto
+        type: text
+    effective_directive:
+        label: 'offline.csp::lang.log.effective_directive'
+        span: auto
+        type: text
+    disposition:
+        label: 'offline.csp::lang.log.disposition'
+        span: auto
+        type: text
+    status_code:
+        label: 'offline.csp::lang.log.status_code'
+        span: auto
+        type: text
+    original_policy:
+        label: 'offline.csp::lang.log.original_policy'
+        size: large
+        span: auto
+        type: codeeditor
+    script_sample:
+        label: 'offline.csp::lang.log.script_sample'
+        size: large
+        span: auto
+        type: codeeditor

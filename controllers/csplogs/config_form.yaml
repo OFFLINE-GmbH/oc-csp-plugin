@@ -1,0 +1,11 @@
+name: Logs
+modelClass: OFFLINE\CSP\Models\CSPLog
+form: $/offline/csp/models/csplog/fields.yaml
+defaultRedirect: offline/csp/csplogs
+create:
+    redirect: 'offline/csp/csplogs/update/:id'
+    redirectClose: offline/csp/csplogs
+update:
+    redirect: offline/csp/csplogs
+    redirectClose: offline/csp/csplogs
+preview: {  }

@@ -1,0 +1,10 @@
+plugin:
+    name: 'offline.csp::lang.plugin.name'
+    description: 'offline.csp::lang.plugin.description'
+    author: OFFLINE
+    icon: oc-icon-lock
+    homepage: ''
+permissions:
+    offline.csp.manage_settings:
+        tab: 'offline.csp::lang.plugin.name'
+        label: 'offline.csp::lang.permissions.manage_settings'

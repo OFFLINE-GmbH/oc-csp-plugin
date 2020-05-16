@@ -1,0 +1,60 @@
+columns:
+    blocked_uri:
+        label: 'offline.csp::lang.log.blocked_uri'
+        type: text
+        searchable: true
+        sortable: true
+    document_uri:
+        label: 'offline.csp::lang.log.document_uri'
+        type: text
+        searchable: true
+        sortable: true
+        invisible: true
+    referrer:
+        label: 'offline.csp::lang.log.referrer'
+        type: text
+        searchable: true
+        sortable: true
+        invisible: true
+    disposition:
+        label: 'offline.csp::lang.log.disposition'
+        type: text
+        searchable: true
+        sortable: true
+        invisible: true
+    status_code:
+        label: 'offline.csp::lang.log.status_code'
+        type: text
+        searchable: true
+        sortable: true
+    violated_directive:
+        label: 'offline.csp::lang.log.violated_directive'
+        type: text
+        searchable: true
+        sortable: true
+    effective_directive:
+        label: 'offline.csp::lang.log.effective_directive'
+        type: text
+        searchable: true
+        sortable: true
+        invisible: true
+    original_policy:
+        label: 'offline.csp::lang.log.original_policy'
+        type: text
+        searchable: true
+        invisible: true
+        sortable: true
+    script_sample:
+        label: 'offline.csp::lang.log.script_sample'
+        type: text
+        searchable: true
+        invisible: true
+        sortable: true
+    created_at:
+        label: 'offline.csp::lang.log.created_at'
+        type: datetime
+        sortable: true
+    updated_at:
+        label: 'offline.csp::lang.log.updated_at'
+        type: datetime
+        invisible: true
