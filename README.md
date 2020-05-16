@@ -38,6 +38,18 @@ Now you are ready to disable the `Report only` mode and actually block violating
 You can test the strength of your CSP using [Google's CSP validator](https://csp-evaluator.withgoogle.com/)
 or the [Mozilla Obervatory](https://observatory.mozilla.org/).
 
+## Using the nonce on demand
+
+You can access the `nonce` for the current request using the 
+`csp_nonce` helper function:
+
+```twig
+<script nonce="{{ csp_nonce() }}"> 
+<style nonce="{{ csp_nonce() }}">
+```
+
+You can disable the automatic injection of the nonce via the backend settings.
+
 ## When things break
 
 A misconfigured CSP can break your site. Make sure to work in `Report only` mode
