@@ -354,6 +354,7 @@ tabs:
                 'mediastream:': Mediastream
                 'blob:': Blob
                 'filesystem:': Filesystem
+                'ws:': Websocket
             span: auto
             type: checkboxlist
             tab: 'offline.csp::lang.form.connect_source'

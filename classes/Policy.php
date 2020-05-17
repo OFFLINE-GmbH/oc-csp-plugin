@@ -4,11 +4,11 @@ namespace OFFLINE\CSP\Classes;
 
 
 use Cache;
+use OFFLINE\LaravelCSP\Directive;
 use OFFLINE\CSP\Plugin;
-use Spatie\Csp\Directive;
-use Spatie\Csp\Value;
+use OFFLINE\LaravelCSP\Value;
 
-class Policy extends \Spatie\Csp\Policies\Policy
+class Policy extends \OFFLINE\LaravelCSP\Policies\Policy
 {
     public $settings;
 

@@ -10,6 +10,8 @@ use OFFLINE\CSP\Classes\NonceInjector;
 use OFFLINE\CSP\Classes\Policy;
 use OFFLINE\CSP\Console\DisableCSPPlugin;
 use OFFLINE\CSP\Models\CSPSettings;
+use OFFLINE\LaravelCSP\Nonce\NonceGenerator;
+use OFFLINE\LaravelCSP\Nonce\RandomString;
 use System\Classes\PluginBase;
 use System\Controllers\Settings;
 use System\Traits\ViewMaker;
@@ -23,6 +25,11 @@ class Plugin extends PluginBase
 
     public function boot()
     {
+        $this->app->singleton(NonceGenerator::class, RandomString::class);
+        $this->app->singleton('csp-nonce', function () {
+            return app(NonceGenerator::class)->generate();
+        });
+
         // Register the CSP middleware if it is enabled.
         if ((bool)CSPSettings::get('enabled')) {
             $this->app[Kernel::class]->pushMiddleware(CSPMiddleware::class);
@@ -104,7 +111,7 @@ class Plugin extends PluginBase
         ];
 
         // Make sure every directive starts on its own line for better visibility.
-        $field->value = str_replace(';', ";\n", $csp);
+        $field->value = str_replace('; ', ";\n", $csp);
 
         return new CodeEditor($controller, $field, $config);
     }
