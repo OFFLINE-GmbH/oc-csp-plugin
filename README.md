@@ -35,6 +35,18 @@ violations are logged.
 
 Now you are ready to disable the `Report only` mode and actually block violating requests.
 
+## Adding the CSP as a meta tag
+
+If you don't want to add the CSP header to every response, you can opt-in for
+certain pages by adding this meta tag:
+
+```html
+<meta http-equiv="content-security-policy" content="{{ csp_meta() }}">
+```
+
+Make sure to disable the global response header in the backend settings first.
+Also note that the reporting of violations is not supported using the meta tag method.
+
 ## Test your CSP
 
 You can test the strength of your CSP using [Google's CSP validator](https://csp-evaluator.withgoogle.com/)

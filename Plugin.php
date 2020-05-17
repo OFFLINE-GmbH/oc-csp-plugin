@@ -69,6 +69,18 @@ class Plugin extends PluginBase
                 'csp_nonce' => function () {
                     return app('csp-nonce');
                 },
+                'csp_meta' => function () {
+                    $record = CSPSettings::getSettingsRecord();
+                    if ( ! $record) {
+                        return '';
+                    }
+                    $settings = $record->value;
+
+                    // reporting is not supported in meta tags.
+                    $settings['report_mode'] = 'disabled';
+
+                    return (string)(new Policy($settings))->configure();
+                },
             ],
         ];
     }
