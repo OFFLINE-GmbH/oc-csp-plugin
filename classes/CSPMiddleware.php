@@ -3,33 +3,72 @@
 namespace OFFLINE\CSP\Classes;
 
 
+use Cache;
 use Closure;
 use Illuminate\Http\Request;
 use OFFLINE\CSP\Models\CSPSettings;
+use OFFLINE\CSP\Plugin;
 
 class CSPMiddleware
 {
+    const CACHE_KEYS = [
+        'default' => 'offline.csp',
+        'backend' => 'offline.csp.backend',
+    ];
+
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
 
         $record = CSPSettings::getSettingsRecord();
-        if ( ! $record) {
+        if ( ! $record || ! optional($record->value)['enabled']) {
             return $response;
         }
 
-        $settings = $record->value;
+        $headers = $this->buildHeaders($record->value);
 
-        // Make sure the CSP does not break backend functionality.
-        if (app()->runningInBackend()) {
-            $settings = $this->patchPolicyForBackend($settings);
+        foreach ($headers as $name => $value) {
+            if ( ! $response->headers->has($name)) {
+                $response->headers->set($name, $this->patchNonce($value));
+            }
         }
 
-        (new Policy($settings))
-            ->configure()
-            ->applyTo($response);
-
         return $response;
+    }
+
+    protected function buildHeaders(array $settings): array
+    {
+        $cacheKey = self::CACHE_KEYS['default'];
+
+        if (app()->runningInBackend()) {
+            // Make sure the CSP does not break backend functionality.
+            $settings = $this->patchPolicyForBackend($settings);
+            // Cache the backend policy separately
+            $cacheKey = self::CACHE_KEYS['backend'];
+        }
+
+        return Cache::rememberForever($cacheKey, function () use ($settings) {
+            $headers = [];
+            $policy = (new Policy($settings))->configure();
+
+            // Add support for Report-To directive
+            $headerName = 'Report-To';
+            $value = json_encode([
+                'group' => Plugin::REPORT_ENDPOINT,
+                'max_age' => 10886400,
+                'endpoints' => [['url' => $policy->getReportToUrl()]],
+            ], JSON_UNESCAPED_SLASHES);
+
+            // Add the effective CSP header
+            $headers[$headerName] = $value;
+            $headerName = $policy->isReportOnly()
+                ? 'Content-Security-Policy-Report-Only'
+                : 'Content-Security-Policy';
+
+            $headers[$headerName] = (string)$policy;
+
+            return $headers;
+        });
     }
 
     protected function patchPolicyForBackend(array $settings): array
@@ -50,7 +89,7 @@ class CSPMiddleware
         $settings = array_filter($settings, function ($setting) {
             return $setting !== 'nonce';
         });
-        $settings[] = 'unsafe-inline unsafe-eval';
+        $settings[] = 'self unsafe-inline unsafe-eval';
 
         return $settings;
     }
@@ -63,5 +102,18 @@ class CSPMiddleware
         $settings[] = 'self data: *.gravatar.com';
 
         return $settings;
+    }
+
+    /**
+     * Add a new nonce to cached responses.
+     */
+    protected function patchNonce(string $value): string
+    {
+        if (str_contains($value, 'nonce')) {
+            $nonce = app('csp-nonce');
+            $value = preg_replace('/\'nonce-[^\']+\'/i', "'nonce-$nonce'", $value);
+        }
+
+        return $value;
     }
 }

@@ -1,17 +1,25 @@
 <?php namespace OFFLINE\CSP;
 
+use Backend\Classes\FormField;
 use Backend\Facades\Backend;
+use Backend\FormWidgets\CodeEditor;
 use Event;
 use Illuminate\Contracts\Http\Kernel;
 use OFFLINE\CSP\Classes\CSPMiddleware;
 use OFFLINE\CSP\Classes\NonceInjector;
+use OFFLINE\CSP\Classes\Policy;
 use OFFLINE\CSP\Console\DisableCSPPlugin;
 use OFFLINE\CSP\Models\CSPSettings;
 use System\Classes\PluginBase;
+use System\Controllers\Settings;
+use System\Traits\ViewMaker;
 
 class Plugin extends PluginBase
 {
+    const REPORT_ENDPOINT = 'csp-endpoint';
     const REPORT_URI = '/_csp/report-uri';
+
+    use ViewMaker;
 
     public function boot()
     {
@@ -26,6 +34,20 @@ class Plugin extends PluginBase
                 $dataHolder->content = NonceInjector::withNonce(app('csp-nonce'))->inject($dataHolder->content);
             });
         }
+
+        // Register the onShowCSP handler for the backend settings page.
+        \System\Controllers\Settings::extend(function ($controller) {
+            $controller->addDynamicMethod('onShowCSP', function () use ($controller) {
+                $csp = (string)(new Policy(post('CSPSettings', [])))->configure();
+
+                $formWidget = $this->buildCodeEditor($controller, $csp);
+
+                return $this->makePartial('$/offline/csp/models/cspsettings/_csp_modal.htm', [
+                    'widget' => $formWidget,
+                    'csp' => $csp,
+                ]);
+            });
+        });
     }
 
     public function register()
@@ -68,5 +90,22 @@ class Plugin extends PluginBase
                 'permissions' => ['offline.csp.manage_settings'],
             ],
         ];
+    }
+
+    protected function buildCodeEditor(Settings $controller, string $csp): CodeEditor
+    {
+        $field = new FormField('csp', 'csp');
+        $config = [
+            'fontSize' => 13,
+            'margin' => 15,
+            'showGutter' => false,
+            'displayIndentGuides' => false,
+            'showPrintMargin' => false,
+        ];
+
+        // Make sure every directive starts on its own line for better visibility.
+        $field->value = str_replace(';', ";\n", $csp);
+
+        return new CodeEditor($controller, $field, $config);
     }
 }

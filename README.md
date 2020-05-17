@@ -12,9 +12,11 @@ You should know what a CSP is and how it works to use this plugin. You can
 The `OFFLINE.CSP` plugin provides the following features:
 
 * The Content-Security-Policy can be configured in the backend 
+* Preview your CSP before saving it 
 * Policy violations are automatically logged and can be viewed in the backend
 * A per-request [`nonce`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src#Unsafe_inline_script) is generated and can be used on demand
 * The `nonce` can optionally be injected in all `<script>` and `<style>` tags automatically
+* Your CSP is patched automatically so it does not break the backend functionality (`unsafe-eval` and `unsafe-inline` are required)
 
 ## Getting started
 

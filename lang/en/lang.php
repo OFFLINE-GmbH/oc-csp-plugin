@@ -7,6 +7,7 @@
         'description' => 'Manage the Content Security Policy for your website',
     ],
     'form' => [
+        'show_csp' => 'Preview CSP',
         'general' => 'General',
         'nonce' => 'Nonce',
         'nonce_comment' => 'Generate a nonce for these directives',
@@ -27,7 +28,7 @@
         'base_uri' => 'Base URI',
         'manifest_source' => 'Manifest source',
         'upgrade_insecure_requests' => 'Upgrade insecure requests',
-        'upgrade_insecure_requests_comment' => 'Rewrite all HTTP requests to HTTPS',
+        'upgrade_insecure_requests_comment' => 'Rewrite all HTTP requests to HTTPS. Only enable this if you serve your page via HTTPS.',
         'block_all_mixed_content' => 'Block all mixed content',
         'block_all_mixed_content_comment' => 'Do not load HTTP content when the page is loaded via HTTPS',
         'inject_nonce' => 'Inject nonce',
@@ -74,4 +75,9 @@
         'clear' => 'Clear log',
         'confirm_clear' => 'Do you really want to clear all log entries?'
     ],
+    'preview' => [
+        'title' => 'Preview of your CSP header',
+        'visual' => 'Visual preview',
+        'single_line' => 'Single line CSP',
+    ]
 ];

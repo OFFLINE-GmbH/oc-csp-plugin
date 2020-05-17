@@ -3,15 +3,13 @@
 namespace OFFLINE\CSP\Classes;
 
 
+use Cache;
 use OFFLINE\CSP\Plugin;
 use Spatie\Csp\Directive;
 use Spatie\Csp\Value;
-use Symfony\Component\HttpFoundation\Response;
 
 class Policy extends \Spatie\Csp\Policies\Policy
 {
-    const ENDPOINT_NAME = 'csp-endpoint';
-
     public $settings;
 
     public function __construct(array $settings)
@@ -51,39 +49,18 @@ class Policy extends \Spatie\Csp\Policies\Policy
         return $this;
     }
 
-    public function applyTo(Response $response)
-    {
-        $this->configure();
-
-        // Add support for Report-To directive
-        $headerName = 'Report-To';
-        if ( ! $response->headers->has($headerName)) {
-            $value = json_encode([
-                'group' => self::ENDPOINT_NAME,
-                'max_age' => 10886400,
-                'endpoints' => [['url' => $this->getReportToUrl()]],
-            ], JSON_UNESCAPED_SLASHES);
-            $response->headers->set($headerName, $value);
-        }
-
-        $headerName = $this->reportOnly
-            ? 'Content-Security-Policy-Report-Only'
-            : 'Content-Security-Policy';
-
-        if ($response->headers->has($headerName)) {
-            return;
-        }
-
-        $response->headers->set($headerName, (string)$this);
-    }
-
-    protected function getReportToUrl(): string
+    public function getReportToUrl(): string
     {
         if ($this->settings->report_mode === 'internal') {
             return Plugin::REPORT_URI;
         }
 
         return $this->settings->report_uri;
+    }
+
+    public function isReportOnly()
+    {
+        return $this->reportOnly;
     }
 
     /**
@@ -114,7 +91,7 @@ class Policy extends \Spatie\Csp\Policies\Policy
     {
         $this->directives['report-uri'] = [$uri];
 
-        // $this->directives['report-to'] = [self::ENDPOINT_NAME];
+        $this->directives['report-to'] = [Plugin::REPORT_ENDPOINT];
 
         return $this;
     }
@@ -347,7 +324,7 @@ class Policy extends \Spatie\Csp\Policies\Policy
 
     protected function flags(): void
     {
-        if ((bool)$this->settings->report_only === false && (bool)$this->settings->upgrade_insecure_requests) {
+        if ((bool)$this->settings->upgrade_insecure_requests) {
             $this->addDirective(Directive::UPGRADE_INSECURE_REQUESTS, Value::NO_VALUE);
         }
         if ((bool)$this->settings->block_all_mixed_content) {

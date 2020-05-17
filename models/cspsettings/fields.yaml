@@ -4,6 +4,10 @@ fields:
         comment: 'offline.csp::lang.form.enabled_comment'
         span: left
         type: switch
+    _view_csp:
+        span: right
+        type: partial
+        path: $/offline/csp/models/cspsettings/_show_btn.htm
 
 tabs:
     lazy:

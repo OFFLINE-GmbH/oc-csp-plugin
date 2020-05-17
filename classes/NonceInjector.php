@@ -27,6 +27,10 @@ class NonceInjector
             return $this->addNonce($matches[0]);
         }, $source);
 
+        $source = preg_replace_callback('/\<link[^\>]*>/i', function ($matches) {
+            return $this->addNonce($matches[0]);
+        }, $source);
+
         return $source;
     }
 

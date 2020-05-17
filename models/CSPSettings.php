@@ -2,7 +2,9 @@
 
 namespace OFFLINE\CSP\Models;
 
+use Cache;
 use Model;
+use OFFLINE\CSP\Classes\CSPMiddleware;
 
 class CSPSettings extends Model
 {
@@ -11,7 +13,6 @@ class CSPSettings extends Model
     public $settingsCode = 'offline_csp_settings';
 
     public $settingsFields = 'fields.yaml';
-
 
     public function initSettingsData()
     {
@@ -26,5 +27,12 @@ class CSPSettings extends Model
         $this->base_uri = ['none'];
         $this->inject_nonce = true;
         $this->block_all_mixed_content = true;
+    }
+
+    public function afterSave()
+    {
+        foreach (CSPMiddleware::CACHE_KEYS as $key) {
+            Cache::forget($key);
+        }
     }
 }
