@@ -1,3 +1,5 @@
 1.0.0:
     - 'Initial release'
     - create_offline_csp_logs.php
+1.0.1: 
+    - Fixed a bug where the nonce was injected into redirect responses (thanks to @marcogrueter)
