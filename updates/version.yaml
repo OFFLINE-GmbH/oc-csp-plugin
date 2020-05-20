@@ -3,3 +3,5 @@
     - create_offline_csp_logs.php
 1.0.1: 
     - Fixed a bug where the nonce was injected into redirect responses (thanks to @marcogrueter)
+1.0.2: 
+    - Further optimized the handling of nonce injection

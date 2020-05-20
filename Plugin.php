@@ -5,6 +5,7 @@ use Backend\Facades\Backend;
 use Backend\FormWidgets\CodeEditor;
 use Event;
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Http\Response;
 use OFFLINE\CSP\Classes\CSPMiddleware;
 use OFFLINE\CSP\Classes\NonceInjector;
 use OFFLINE\CSP\Classes\Policy;
@@ -12,7 +13,6 @@ use OFFLINE\CSP\Console\DisableCSPPlugin;
 use OFFLINE\CSP\Models\CSPSettings;
 use OFFLINE\LaravelCSP\Nonce\NonceGenerator;
 use OFFLINE\LaravelCSP\Nonce\RandomString;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use System\Classes\PluginBase;
 use System\Controllers\Settings;
 use System\Traits\ViewMaker;
@@ -39,11 +39,10 @@ class Plugin extends PluginBase
         if (CSPSettings::get('inject_nonce')) {
             // Automatically inject the nonce attribute into each script and style tag.
             Event::listen('cms.page.postprocess', function ($controller, $url, $page, $dataHolder) {
-                if ($dataHolder->content instanceof RedirectResponse) {
+                if ( ! is_object($dataHolder) || ! property_exists($dataHolder, 'content')) {
                     return;
                 }
-
-                $dataHolder->content = NonceInjector::withNonce(app('csp-nonce'))->inject($dataHolder->content);
+                $dataHolder->content = $this->handleNonceInjection($dataHolder->content);
             });
         }
 
@@ -114,6 +113,36 @@ class Plugin extends PluginBase
                 'permissions' => ['offline.csp.manage_settings'],
             ],
         ];
+    }
+
+    protected function handleNonceInjection($response)
+    {
+        $injector = NonceInjector::withNonce(app('csp-nonce'));
+
+        // String response, we can inject directly.
+        if (is_string($response)) {
+            return $injector->inject($response);
+        }
+
+        // If it is neither a String nor a proper Response response,
+        // we just return the original value.
+        if ( ! $response instanceof Response) {
+            return $response;
+        }
+
+        // Don't inject into redirects.
+        if ($response->isRedirect()) {
+            return $response;
+        }
+
+        // If this is a json response, we don't inject anything.
+        $isJson = $response->headers->get('content-type') === 'application/json';
+        if ($isJson) {
+            return $response;
+        }
+
+        // Simple response, just replace the content.
+        return $response->setContent($injector->inject($response->getContent()));
     }
 
     protected function buildCodeEditor(Settings $controller, string $csp): CodeEditor
