@@ -12,6 +12,7 @@ use OFFLINE\CSP\Console\DisableCSPPlugin;
 use OFFLINE\CSP\Models\CSPSettings;
 use OFFLINE\LaravelCSP\Nonce\NonceGenerator;
 use OFFLINE\LaravelCSP\Nonce\RandomString;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use System\Classes\PluginBase;
 use System\Controllers\Settings;
 use System\Traits\ViewMaker;
@@ -38,6 +39,10 @@ class Plugin extends PluginBase
         if (CSPSettings::get('inject_nonce')) {
             // Automatically inject the nonce attribute into each script and style tag.
             Event::listen('cms.page.postprocess', function ($controller, $url, $page, $dataHolder) {
+                if ($dataHolder->content instanceof RedirectResponse) {
+                    return;
+                }
+
                 $dataHolder->content = NonceInjector::withNonce(app('csp-nonce'))->inject($dataHolder->content);
             });
         }
