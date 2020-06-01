@@ -76,6 +76,18 @@ tabs:
             options:
                 "'script'": 'script'
             tab: 'offline.csp::lang.form.general'
+        _section_security_headers:
+            label: 'offline.csp::lang.form.section_security_headers'
+            comment: 'offline.csp::lang.form.section_security_headers_comment'
+            span: left
+            type: section
+            tab: 'offline.csp::lang.form.general'
+        enable_xss_protection:
+            label: 'offline.csp::lang.form.enable_xss_protection'
+            commentAbove: 'offline.csp::lang.form.enable_xss_protection_comment'
+            span: left
+            type: checkbox
+            tab: 'offline.csp::lang.form.general'
         sandbox:
             label: 'offline.csp::lang.form.sandbox'
             span: right
@@ -94,7 +106,40 @@ tabs:
                 allow-top-navigation: 'Allow top navigation'
                 allow-top-navigation-by-user-activation: 'Allow top navigation by user activation'
             tab: 'offline.csp::lang.form.general'
-
+        enable_hsts:
+            label: 'offline.csp::lang.form.enable_hsts'
+            commentAbove: 'offline.csp::lang.form.enable_hsts_comment'
+            span: left
+            type: checkbox
+            tab: 'offline.csp::lang.form.general'
+        enable_x_frame_options:
+            label: 'offline.csp::lang.form.enable_x_frame_options'
+            commentAbove: 'offline.csp::lang.form.enable_x_frame_options_comment'
+            span: left
+            type: checkbox
+            tab: 'offline.csp::lang.form.general'
+        enable_content_type_options:
+            label: 'offline.csp::lang.form.enable_content_type_options'
+            commentAbove: 'offline.csp::lang.form.enable_content_type_options_comment'
+            span: left
+            type: checkbox
+            tab: 'offline.csp::lang.form.general'
+        referrer_policy:
+            label: 'offline.csp::lang.form.referrer_policy'
+            commentAbove: 'offline.csp::lang.form.referrer_policy_comment'
+            span: left
+            type: dropdown
+            options:
+                '': "Disabled"
+                'no-referrer': 'no-referrer'
+                'no-referrer-when-downgrade': 'no-referrer-when-downgrade'
+                'origin': 'origin'
+                'origin-when-cross-origin': 'origin-when-cross-origin'
+                'same-origin': 'same-origin'
+                'strict-origin': 'strict-origin'
+                'strict-origin-when-cross-origin': 'strict-origin-when-cross-origin'
+                'unsafe-url': 'unsafe-url'
+            tab: 'offline.csp::lang.form.general'
         #
         # Default
         #

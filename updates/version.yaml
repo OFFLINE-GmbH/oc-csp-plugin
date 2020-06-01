@@ -5,3 +5,5 @@
     - Fixed a bug where the nonce was injected into redirect responses (thanks to @marcogrueter)
 1.0.2: 
     - Further optimized the handling of nonce injection
+1.0.3: 
+    - Added option to add more HTTP security headers

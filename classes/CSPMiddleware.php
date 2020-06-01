@@ -67,8 +67,31 @@ class CSPMiddleware
 
             $headers[$headerName] = (string)$policy;
 
+            $headers = $this->addSecurityHeaders($headers, $settings);
+
             return $headers;
         });
+    }
+
+    protected function addSecurityHeaders(array $headers, array $settings): array
+    {
+        if ((bool)array_get($settings, 'enable_xss_protection', false)) {
+            $headers['X-XSS-Protection'] = '1; mode=block';
+        }
+        if ((bool)array_get($settings, 'enable_hsts', false)) {
+            $headers['Strict-Transport-Security'] = 'max-age=31536000; preload';
+        }
+        if ((bool)array_get($settings, 'enable_x_frame_options', false)) {
+            $headers['X-Frame-Options'] = 'SAMEORIGIN';
+        }
+        if ((bool)array_get($settings, 'enable_content_type_options', false)) {
+            $headers['X-Content-Type-Options'] = 'nosniff';
+        }
+        if ($option = array_get($settings, 'referrer_policy', false)) {
+            $headers['Referrer-Policy'] = $option;
+        }
+
+        return $headers;
     }
 
     protected function patchPolicyForBackend(array $settings): array

@@ -26,6 +26,11 @@ class CSPSettings extends Model
         $this->object_src = ['none'];
         $this->base_uri = ['none'];
         $this->inject_nonce = true;
+        $this->enable_xss_protection = true;
+        $this->enable_hsts = false;
+        $this->enable_x_frame_options = true;
+        $this->enable_content_type_options = true;
+        $this->referrer_policy = 'same-origin';
         $this->block_all_mixed_content = true;
     }
 
