@@ -99,6 +99,7 @@ class CSPMiddleware
         $settings['style_src'] = $this->ensureUnsafeSources($settings['style_src']);
         $settings['script_src'] = $this->ensureUnsafeSources($settings['script_src']);
         $settings['image_src'] = $this->ensureImageSources($settings['image_src']);
+        $settings['require_trusted_types'] = [];
 
         return $settings;
     }

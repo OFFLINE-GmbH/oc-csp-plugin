@@ -7,3 +7,5 @@
     - Further optimized the handling of nonce injection
 1.0.3: 
     - Added option to add more HTTP security headers
+1.0.4: 
+    - Removed `require-trusted-types` policy for backend requests

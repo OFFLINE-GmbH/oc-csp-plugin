@@ -12,7 +12,7 @@
         'nonce' => 'Nonce',
         'nonce_comment' => 'Generate a nonce for these directives',
         'sandbox' => 'Sandbox',
-        'require_trusted_types' => 'Required trusted types for',
+        'require_trusted_types' => 'Require trusted types for',
         'default_source' => 'Default source',
         'image_source' => 'Image source',
         'font_source' => 'Font source',
