@@ -5,6 +5,8 @@ namespace OFFLINE\CSP\Classes;
 
 use Cache;
 use Closure;
+use Event;
+use Cms\Classes\Controller;
 use Illuminate\Http\Request;
 use OFFLINE\CSP\Models\CSPSettings;
 use OFFLINE\CSP\Plugin;
@@ -16,6 +18,15 @@ class CSPMiddleware
         'backend' => 'offline.csp.backend',
     ];
 
+    /**
+     * Don't cache anything for this request.
+     *
+     * This is used in case the CSP was dynamically edited via an event listener.
+     *
+     * @var bool
+     */
+    public $skipCache = false;
+
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
@@ -25,7 +36,23 @@ class CSPMiddleware
             return $response;
         }
 
-        $headers = $this->buildHeaders($record->value);
+        $settings = $record->value;
+
+        /**
+         * Allow the user to change the CSP definition dynamically.
+         *
+         * @example
+         * Event::listen('offline.csp.extend', function(&$settings, $controller) {
+         *    if (starts_with($controller->getPage()->url, '/needs-unsafe-eval')) {
+         *        $settings['script_src'][] = 'unsafe-eval';
+         *    }
+         * });
+         */
+        $overrides = Event::fire('offline.csp.extend', [&$settings, Controller::getController()]);
+
+        $this->skipCache = count($overrides) > 0;
+
+        $headers = $this->buildHeaders($settings);
 
         foreach ($headers as $name => $value) {
             if ( ! $response->headers->has($name)) {
@@ -47,7 +74,7 @@ class CSPMiddleware
             $cacheKey = self::CACHE_KEYS['backend'];
         }
 
-        return Cache::rememberForever($cacheKey, function () use ($settings) {
+        $callback = function () use ($settings) {
             $headers = [];
             $policy = (new Policy($settings))->configure();
 
@@ -70,7 +97,9 @@ class CSPMiddleware
             $headers = $this->addSecurityHeaders($headers, $settings);
 
             return $headers;
-        });
+        };
+
+        return $this->skipCache ? $callback() : Cache::rememberForever($cacheKey, $callback);
     }
 
     protected function addSecurityHeaders(array $headers, array $settings): array

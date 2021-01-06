@@ -64,14 +64,30 @@ You can access the `nonce` for the current request using the
 
 You can enable or disable the automatic injection of the nonce via the backend settings.
 
+## Modifying the CSP dynamically
+
+Sometimes, you need to change your CSP configuration for a single page only. You can listen for the `offline.csp.extend`
+event and modify the CSP settings to your needs.
+
+```php
+// Add this to your Plugin.php's boot method.
+\Event::listen('offline.csp.extend', function (&$settings, $controller) {
+     // Check for a certain page. You could also use ->fileName here.
+    if (starts_with($controller->getPage()->url, '/needs-unsafe-eval')) {
+        // Add the unsafe-eval option to the script_src configuration.
+        $settings['script_src'][] = 'unsafe-eval';
+    }
+});
+
+```
+
 ## When things break
 
-A misconfigured CSP can break your site. Make sure to work in `Report only` mode
-until you have fine-tuned your site to your CSP.
+A misconfigured CSP can break your site. Make sure to work in `Report only` mode until you have fine-tuned your site to
+your CSP.
 
-If for any reason you are unable to access your site after you enabled the CSP,
-you can run the following console command to disable the CSP header injection completely:
-
+If for any reason you are unable to access your site after you enabled the CSP, you can run the following console
+command to disable the CSP header injection completely:
 
 ```
 php artisan csp:disable
