@@ -11,3 +11,4 @@
     - Removed `require-trusted-types` policy for backend requests
 1.0.5: 
     - 'Added "offline.csp.extend" event that allows you to change the CSP on a per-page basis. An example is in the README.'
+1.0.6: 'Fixed handling of empty settings (thanks to @RickAcb)'
