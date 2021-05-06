@@ -188,20 +188,20 @@ class Policy extends \OFFLINE\LaravelCSP\Policies\Policy
 
     protected function fontSrc(): void
     {
-        if ($this->settings->font_src) {
+        if (isset($this->settings->font_src) && $this->settings->font_src) {
             $this->addDirective(Directive::FONT, $this->join($this->settings->font_src));
         }
-        if ($this->settings->font_src_hosts) {
+        if (isset($this->settings->font_src_hosts) && $this->settings->font_src_hosts) {
             $this->addDirective(Directive::FONT, $this->settings->font_src_hosts);
         }
     }
 
     protected function connectSrc(): void
     {
-        if ($this->settings->connect_src) {
+        if (isset($this->settings->connect_src) && $this->settings->connect_src) {
             $this->addDirective(Directive::CONNECT, $this->join($this->settings->connect_src));
         }
-        if ($this->settings->connect_src_hosts) {
+        if (isset($this->settings->connect_src_hosts) && $this->settings->connect_src_hosts) {
             $this->addDirective(Directive::CONNECT, $this->settings->connect_src_hosts);
         }
     }
@@ -209,30 +209,30 @@ class Policy extends \OFFLINE\LaravelCSP\Policies\Policy
 
     protected function mediaSrc(): void
     {
-        if ($this->settings->media_src) {
+        if (isset($this->settings->media_src) && $this->settings->media_src) {
             $this->addDirective(Directive::MEDIA, $this->join($this->settings->media_src));
         }
-        if ($this->settings->media_src_hosts) {
+        if (isset($this->settings->media_src_hosts) && $this->settings->media_src_hosts) {
             $this->addDirective(Directive::MEDIA, $this->settings->media_src_hosts);
         }
     }
 
     protected function objectSrc(): void
     {
-        if ($this->settings->object_src) {
+        if (isset($this->settings->object_src) && $this->settings->object_src) {
             $this->addDirective(Directive::OBJECT, $this->join($this->settings->object_src));
         }
-        if ($this->settings->object_src_hosts) {
+        if (isset($this->settings->object_src_hosts) && $this->settings->object_src_hosts) {
             $this->addDirective(Directive::OBJECT, $this->settings->object_src_hosts);
         }
     }
 
     protected function prefetchSrc(): void
     {
-        if ($this->settings->prefetch_src) {
+        if (isset($this->settings->prefetch_src) && $this->settings->prefetch_src) {
             $this->addDirective(Directive::PREFETCH, $this->join($this->settings->prefetch_src));
         }
-        if ($this->settings->prefetch_src_hosts) {
+        if (isset($this->settings->prefetch_src_hosts) && $this->settings->prefetch_src_hosts) {
             $this->addDirective(Directive::PREFETCH, $this->settings->prefetch_src_hosts);
         }
     }
@@ -240,67 +240,67 @@ class Policy extends \OFFLINE\LaravelCSP\Policies\Policy
 
     protected function childSrc(): void
     {
-        if ($this->settings->child_src) {
+        if (isset($this->settings->child_src) && $this->settings->child_src) {
             $this->addDirective(Directive::CHILD, $this->join($this->settings->child_src));
         }
-        if ($this->settings->child_src_hosts) {
+        if (isset($this->settings->child_src_hosts) && $this->settings->child_src_hosts) {
             $this->addDirective(Directive::CHILD, $this->settings->child_src_hosts);
         }
     }
 
     protected function frameSrc(): void
     {
-        if ($this->settings->frame_src) {
+        if (isset($this->settings->frame_src) && $this->settings->frame_src) {
             $this->addDirective(Directive::FRAME, $this->join($this->settings->frame_src));
         }
-        if ($this->settings->frame_src_hosts) {
+        if (isset($this->settings->frame_src_hosts) && $this->settings->frame_src_hosts) {
             $this->addDirective(Directive::FRAME, $this->settings->frame_src_hosts);
         }
 
-        if ($this->settings->frame_ancestors) {
+        if (isset($this->settings->frame_ancestors) && $this->settings->frame_ancestors) {
             $this->addDirective(Directive::FRAME_ANCESTORS, $this->join($this->settings->frame_ancestors));
         }
-        if ($this->settings->frame_ancestors_hosts) {
+        if (isset($this->settings->frame_ancestors_hosts) && $this->settings->frame_ancestors_hosts) {
             $this->addDirective(Directive::FRAME_ANCESTORS, $this->settings->frame_ancestors_hosts);
         }
     }
 
     protected function workerSrc(): void
     {
-        if ($this->settings->worker_src) {
+        if (isset($this->settings->worker_src) && $this->settings->worker_src) {
             $this->addDirective(Directive::WORKER, $this->join($this->settings->worker_src));
         }
-        if ($this->settings->worker_src_hosts) {
+        if (isset($this->settings->worker_src_hosts) && $this->settings->worker_src_hosts) {
             $this->addDirective(Directive::WORKER, $this->settings->worker_src_hosts);
         }
     }
 
     protected function manifestSrc(): void
     {
-        if ($this->settings->manifest_src) {
+        if (isset($this->settings->manifest_src) && $this->settings->manifest_src) {
             $this->addDirective(Directive::MANIFEST, $this->join($this->settings->manifest_src));
         }
-        if ($this->settings->manifest_src_hosts) {
+        if (isset($this->settings->manifest_src_hosts) && $this->settings->manifest_src_hosts) {
             $this->addDirective(Directive::MANIFEST, $this->settings->manifest_src_hosts);
         }
     }
 
     protected function formAction(): void
     {
-        if ($this->settings->form_action) {
+        if (isset($this->settings->form_action) && $this->settings->form_action) {
             $this->addDirective(Directive::FORM_ACTION, $this->join($this->settings->form_action));
         }
-        if ($this->settings->form_action_hosts) {
+        if (isset($this->settings->form_action_hosts) && $this->settings->form_action_hosts) {
             $this->addDirective(Directive::FORM_ACTION, $this->settings->form_action_hosts);
         }
     }
 
     protected function baseUri(): void
     {
-        if ($this->settings->base_uri) {
+        if (isset($this->settings->base_uri) && $this->settings->base_uri) {
             $this->addDirective(Directive::BASE, $this->join($this->settings->base_uri));
         }
-        if ($this->settings->base_uri_hosts) {
+        if (isset($this->settings->base_uri_hosts) && $this->settings->base_uri_hosts) {
             $this->addDirective(Directive::BASE, $this->settings->base_uri_hosts);
         }
     }
