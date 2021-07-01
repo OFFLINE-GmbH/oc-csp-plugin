@@ -128,6 +128,7 @@ class CSPMiddleware
         $settings['style_src'] = $this->ensureUnsafeSources($settings['style_src']);
         $settings['script_src'] = $this->ensureUnsafeSources($settings['script_src']);
         $settings['image_src'] = $this->ensureImageSources($settings['image_src']);
+        $settings['worker_src'] = $this->ensureWorkerSources($settings['worker_src']);
         $settings['require_trusted_types'] = [];
 
         return $settings;
@@ -138,9 +139,9 @@ class CSPMiddleware
         if ( ! is_array($settings)) {
             $settings = [];
         }
-        // Make sure no nonce setting is present as it conflicts with unsafe-inline.
+        // Make sure no nonce setting is present as it conflicts with unsafe-inline and strict-dynamic.
         $settings = array_filter($settings, function ($setting) {
-            return $setting !== 'nonce';
+            return $setting !== 'nonce' && $setting !== 'strict-dynamic';
         });
         $settings[] = 'self unsafe-inline unsafe-eval';
 
@@ -153,6 +154,21 @@ class CSPMiddleware
             $settings = [];
         }
         $settings[] = 'self data: *.gravatar.com';
+
+        return $settings;
+    }
+
+
+    protected function ensureWorkerSources($settings): array
+    {
+        if ( ! is_array($settings)) {
+            $settings = [];
+        }
+		// Make sure no none setting is present as it conflicts with self.
+        $settings = array_filter($settings, function ($setting) {
+            return $setting !== 'none';
+        });
+        $settings[] = 'self';
 
         return $settings;
     }
