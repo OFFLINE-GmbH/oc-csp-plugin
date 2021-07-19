@@ -7,7 +7,7 @@ use OFFLINE\CSP\Models\CSPLog;
 
     $data = object_get(json_decode($input, false), 'csp-report');
     if (!$data) {
-        return response('Invalid request', 500);
+        return response('Invalid request', 400);
     }
 
     $log = [];
