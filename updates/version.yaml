@@ -13,3 +13,4 @@
     - 'Added "offline.csp.extend" event that allows you to change the CSP on a per-page basis. An example is in the README.'
 1.0.6: 'Fixed handling of empty settings (thanks to @RickAcb)'
 1.0.7: 'Fixed worker sources policy for the backend (thanks to @RickAcb)'
+1.0.8: 'Optimized logging of csp-reports'
