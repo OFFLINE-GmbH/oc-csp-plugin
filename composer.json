@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=7.1",
-        "offline/laravel-csp": "^3.0.3"
+        "offline/laravel-csp": "dev-master"
     },
     "license": "MIT",
     "authors": [

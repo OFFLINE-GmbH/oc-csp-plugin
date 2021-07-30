@@ -14,3 +14,4 @@
 1.0.6: 'Fixed handling of empty settings (thanks to @RickAcb)'
 1.0.7: 'Fixed worker sources policy for the backend (thanks to @RickAcb)'
 1.0.8: 'Optimized logging of csp-reports'
+1.0.9: 'Optimized Support for October v2'
