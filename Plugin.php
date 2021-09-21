@@ -71,7 +71,7 @@ class Plugin extends PluginBase
         return [
             'functions' => [
                 'csp_nonce' => function () {
-                    return app('csp-nonce');
+                    return app()->bound('csp-nonce') ? app('csp-nonce') : '';
                 },
                 'csp_meta' => function () {
                     $record = CSPSettings::getSettingsRecord();
