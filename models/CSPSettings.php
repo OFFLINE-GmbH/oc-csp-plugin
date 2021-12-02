@@ -23,6 +23,7 @@ class CSPSettings extends Model
         $this->require_trusted_types = ["'script'"];
         $this->script_src = ['nonce', 'unsafe-inline'];
         $this->style_src = ['self', 'nonce', 'unsafe-inline'];
+        $this->worker_src = ['none'];
         $this->object_src = ['none'];
         $this->base_uri = ['none'];
         $this->inject_nonce = true;
