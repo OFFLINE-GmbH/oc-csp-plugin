@@ -16,6 +16,7 @@ use OFFLINE\LaravelCSP\Nonce\RandomString;
 use System\Classes\PluginBase;
 use System\Controllers\Settings;
 use System\Traits\ViewMaker;
+use Request;
 
 class Plugin extends PluginBase
 {
@@ -28,6 +29,10 @@ class Plugin extends PluginBase
     {
         $this->app->singleton(NonceGenerator::class, RandomString::class);
         $this->app->singleton('csp-nonce', function () {
+            if (Request::pjax() && $nonce = Request::header('X-Turbo-Nonce')) {
+                return $nonce;
+            }
+
             return app(NonceGenerator::class)->generate();
         });
 

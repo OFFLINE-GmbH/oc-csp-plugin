@@ -11,8 +11,8 @@ You should know what a CSP is and how it works to use this plugin. You can
 
 The `OFFLINE.CSP` plugin provides the following features:
 
-* The Content-Security-Policy can be configured in the backend 
-* Preview your CSP before saving it 
+* The Content-Security-Policy can be configured in the backend
+* Preview your CSP before saving it
 * Policy violations are automatically logged and can be viewed in the backend
 * A per-request [`nonce`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src#Unsafe_inline_script) is generated and can be used on demand
 * The `nonce` can optionally be injected into all `<script>`, `<link>` and `<style>` tags automatically
@@ -24,7 +24,7 @@ Install the plugin and visit the CSP page in the backend settings. Configure
 the CSP according to your needs.
 
 By default, a strict policy is set. We suggest you make your page work with
-this preset for optimal security. 
+this preset for optimal security.
 
 We suggest that you start in `Report only` mode. This will generate console
 messages and a log entry for each validation of the CSP.
@@ -54,7 +54,7 @@ or the [Mozilla Observatory](https://observatory.mozilla.org/).
 
 ## Using the nonce on demand
 
-You can access the `nonce` for the current request using the 
+You can access the `nonce` for the current request using the
 `csp_nonce()` helper function:
 
 ```twig
@@ -91,8 +91,42 @@ command to disable the CSP header injection completely:
 
 ```
 php artisan csp:disable
-``` 
+```
 
+## Integration with October's Turbo Router
 
+If you are using October's Turbo Router together with a nonce,
+your assets will be included on every Turbo requests since Turbo thinks it is a new
+asset because of the new nonce attribute.
 
- 
+A possible solution to this problem is to send a `X-Turbo-Nonce` header with every
+request. If this header is present, the CSP plugin will re-cycle the nonce
+and return new content with the old nonce.
+
+Please note that this does reduce the security of the nonce feature since a
+nonce becomes long-lived over multiple requests.
+
+### Example implementation
+
+Add a `csp-nonce` meta tag to your head section:
+
+```twig
+<meta name="csp-nonce" content="{{ csp_nonce() }}">
+```
+
+Listen for the `ajax:request-start` event and add the `X-Turbo-Nonce` header to
+every request:
+
+```js
+window.addEventListener('ajax:request-start', (event: CustomEvent) => {
+    const request = event.detail.xhr
+
+    // Ignore everything not in OPENED state.
+    if (request.readyState !== 1) {
+        return
+    }
+
+    const nonce = document.querySelector<HTMLMetaElement>('meta[name=\'csp-nonce\']')
+    event.detail.xhr.setRequestHeader('X-Turbo-Nonce', nonce.content)
+});
+```

@@ -17,3 +17,4 @@
 1.0.9: 'Optimized Support for October v2'
 1.0.10: 'Handle missing csp-nonce Container binding gracefully'
 1.0.11: 'Fixed issue where trying to save the backend settings on new installations would result in an exception'
+1.0.12: 'Added workaround for Turbo PJAX requests with nonces'
